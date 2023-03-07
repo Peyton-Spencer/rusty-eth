@@ -7,16 +7,14 @@ pub use counter::*;
     clippy::upper_case_acronyms,
     clippy::type_complexity,
     dead_code,
-    non_camel_case_types
+    non_camel_case_types,
 )]
 pub mod counter {
     #[rustfmt::skip]
     const __ABI: &str = "[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"increment\",\"outputs\":[]},{\"inputs\":[],\"stateMutability\":\"view\",\"type\":\"function\",\"name\":\"number\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\",\"components\":[]}]},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newNumber\",\"type\":\"uint256\",\"components\":[]}],\"stateMutability\":\"nonpayable\",\"type\":\"function\",\"name\":\"setNumber\",\"outputs\":[]}]";
     ///The parsed JSON ABI of the contract.
-    pub static COUNTER_ABI: ::ethers::contract::Lazy<::ethers::core::abi::Abi> =
-        ::ethers::contract::Lazy::new(|| {
-            ::ethers::core::utils::__serde_json::from_str(__ABI).expect("ABI is always valid")
-        });
+    pub static COUNTER_ABI: ::ethers::contract::Lazy<::ethers::core::abi::Abi> = ::ethers::contract::Lazy::new(||
+    ::ethers::core::utils::__serde_json::from_str(__ABI).expect("ABI is always valid"));
     #[rustfmt::skip]
     const __BYTECODE: &[u8] = &[
         96,
@@ -299,8 +297,9 @@ pub mod counter {
         51,
     ];
     ///The bytecode of the contract.
-    pub static COUNTER_BYTECODE: ::ethers::core::types::Bytes =
-        ::ethers::core::types::Bytes::from_static(__BYTECODE);
+    pub static COUNTER_BYTECODE: ::ethers::core::types::Bytes = ::ethers::core::types::Bytes::from_static(
+        __BYTECODE,
+    );
     #[rustfmt::skip]
     const __DEPLOYED_BYTECODE: &[u8] = &[
         96,
@@ -552,8 +551,9 @@ pub mod counter {
         51,
     ];
     ///The deployed bytecode of the contract.
-    pub static COUNTER_DEPLOYED_BYTECODE: ::ethers::core::types::Bytes =
-        ::ethers::core::types::Bytes::from_static(__DEPLOYED_BYTECODE);
+    pub static COUNTER_DEPLOYED_BYTECODE: ::ethers::core::types::Bytes = ::ethers::core::types::Bytes::from_static(
+        __DEPLOYED_BYTECODE,
+    );
     pub struct Counter<M>(::ethers::contract::Contract<M>);
     impl<M> ::core::clone::Clone for Counter<M> {
         fn clone(&self) -> Self {
@@ -573,9 +573,7 @@ pub mod counter {
     }
     impl<M> ::core::fmt::Debug for Counter<M> {
         fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-            f.debug_tuple(stringify!(Counter))
-                .field(&self.address())
-                .finish()
+            f.debug_tuple(stringify!(Counter)).field(&self.address()).finish()
         }
     }
     impl<M: ::ethers::providers::Middleware> Counter<M> {
@@ -585,11 +583,13 @@ pub mod counter {
             address: T,
             client: ::std::sync::Arc<M>,
         ) -> Self {
-            Self(::ethers::contract::Contract::new(
-                address.into(),
-                COUNTER_ABI.clone(),
-                client,
-            ))
+            Self(
+                ::ethers::contract::Contract::new(
+                    address.into(),
+                    COUNTER_ABI.clone(),
+                    client,
+                ),
+            )
         }
         /// Constructs the general purpose `Deployer` instance based on the provided constructor arguments and sends it.
         /// Returns a new instance of a deployer that returns an instance of this contract after sending the transaction
@@ -654,7 +654,8 @@ pub mod counter {
                 .expect("method not found (this should never happen)")
         }
     }
-    impl<M: ::ethers::providers::Middleware> From<::ethers::contract::Contract<M>> for Counter<M> {
+    impl<M: ::ethers::providers::Middleware> From<::ethers::contract::Contract<M>>
+    for Counter<M> {
         fn from(contract: ::ethers::contract::Contract<M>) -> Self {
             Self::new(contract.address(), contract.client())
         }
@@ -668,7 +669,7 @@ pub mod counter {
         Debug,
         PartialEq,
         Eq,
-        Hash,
+        Hash
     )]
     #[ethcall(name = "increment", abi = "increment()")]
     pub struct IncrementCall;
@@ -681,7 +682,7 @@ pub mod counter {
         Debug,
         PartialEq,
         Eq,
-        Hash,
+        Hash
     )]
     #[ethcall(name = "number", abi = "number()")]
     pub struct NumberCall;
@@ -694,7 +695,7 @@ pub mod counter {
         Debug,
         PartialEq,
         Eq,
-        Hash,
+        Hash
     )]
     #[ethcall(name = "setNumber", abi = "setNumber(uint256)")]
     pub struct SetNumberCall {
@@ -712,13 +713,16 @@ pub mod counter {
             data: impl AsRef<[u8]>,
         ) -> ::core::result::Result<Self, ::ethers::core::abi::AbiError> {
             let data = data.as_ref();
-            if let Ok(decoded) = <IncrementCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+            if let Ok(decoded)
+                = <IncrementCall as ::ethers::core::abi::AbiDecode>::decode(data) {
                 return Ok(Self::Increment(decoded));
             }
-            if let Ok(decoded) = <NumberCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+            if let Ok(decoded)
+                = <NumberCall as ::ethers::core::abi::AbiDecode>::decode(data) {
                 return Ok(Self::Number(decoded));
             }
-            if let Ok(decoded) = <SetNumberCall as ::ethers::core::abi::AbiDecode>::decode(data) {
+            if let Ok(decoded)
+                = <SetNumberCall as ::ethers::core::abi::AbiDecode>::decode(data) {
                 return Ok(Self::SetNumber(decoded));
             }
             Err(::ethers::core::abi::Error::InvalidData.into())
@@ -727,9 +731,13 @@ pub mod counter {
     impl ::ethers::core::abi::AbiEncode for CounterCalls {
         fn encode(self) -> Vec<u8> {
             match self {
-                Self::Increment(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::Increment(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
                 Self::Number(element) => ::ethers::core::abi::AbiEncode::encode(element),
-                Self::SetNumber(element) => ::ethers::core::abi::AbiEncode::encode(element),
+                Self::SetNumber(element) => {
+                    ::ethers::core::abi::AbiEncode::encode(element)
+                }
             }
         }
     }
@@ -766,7 +774,7 @@ pub mod counter {
         Debug,
         PartialEq,
         Eq,
-        Hash,
+        Hash
     )]
     pub struct NumberReturn(pub ::ethers::core::types::U256);
 }

@@ -1,0 +1,4 @@
+# Ignore the bindgen files which may not match cargo fmt
+ignore = [
+    "src"
+]
