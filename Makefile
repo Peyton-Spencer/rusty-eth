@@ -2,11 +2,13 @@
 bind:
 	forge build --root ./contracts
 	forge bind --bindings-path ./bindings --root ./contracts --crate-name bindings
+	@echo '# Ignore the bindgen files which may not match cargo fmt\nignore = [\n    "src"\n]' > bindings/.rustfmt.toml
 
 # Force overwrite the contract bindings
-bindoverwrite:
+overwritebind:
 	forge build --root ./contracts
 	forge bind --bindings-path ./bindings --root ./contracts --crate-name bindings --overwrite
+	@echo '# Ignore the bindgen files which may not match cargo fmt\nignore = [\n    "src"\n]' > bindings/.rustfmt.toml
 
 # Forge remappings for contract import convenience
 remappings:
@@ -14,9 +16,12 @@ remappings:
 
 # Test all
 test:
-	forge test --root ./contracts
-	cargo test
+	@echo FORGE TEST:
+	@(cd contracts; source .env; forge test)
+	@echo
+	@echo CARGO TEST:
+	@cargo test
 
 # Verbose test smart contracts
 testcontracts:
-	forge test --root ./contracts -vvvv
+	@(cd contracts; source .env; forge test -vvvv)
